@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { roundsOfHashing } from './password-criteria';
 
 @Injectable()
 export class AuthService {

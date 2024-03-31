@@ -3,8 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-
-export const roundsOfHashing = 10;
+import { roundsOfHashing } from 'src/auth/password-criteria';
 
 @Injectable()
 export class UsersService {
