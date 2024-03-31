@@ -1,6 +1,7 @@
 import { AuthEntity } from './entities/auth.entity';
 import * as bcrypt from 'bcrypt';
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -33,6 +34,32 @@ export class AuthService {
     // generate a JWT containing the user's ID and return it
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
+      user: user,
+    };
+  }
+
+  async register(email: string, password: string): Promise<AuthEntity> {
+    // check if user exists in DB
+    const userExists = await this.prisma.user.findFirst({
+      where: { email },
+    });
+
+    if (userExists) {
+      throw new ConflictException(
+        `An account already exists with the email ${email}`,
+      );
+    }
+
+    const user = await this.prisma.user.create({
+      data: {
+        email: email,
+        password: await bcrypt.hash(password, roundsOfHashing),
+      },
+    });
+
+    return {
+      accessToken: this.jwtService.sign({ userId: user.id }),
+      user,
     };
   }
 }

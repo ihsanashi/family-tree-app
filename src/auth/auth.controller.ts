@@ -14,4 +14,10 @@ export class AuthController {
   login(@Body() { email, password }: AuthDto) {
     return this.authService.login(email, password);
   }
+
+  @Post('register')
+  @ApiOkResponse({ type: AuthEntity })
+  register(@Body() { email, password }: AuthDto) {
+    return this.authService.register(email, password);
+  }
 }
