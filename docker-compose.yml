@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13.5
+    container_name: family-tree-db
+    restart: always
+
+    environment:
+      - POSTGRES_USER=ahmadihsan
+
+      - POSTGRES_PASSWORD=famtree93
+
+    volumes:
+      - family-tree-volume:/var/lib/postgresql/data
+
+    ports:
+      - '5432:5432'
+
+volumes:
+  family-tree-volume:
+    name: family-tree-volume
