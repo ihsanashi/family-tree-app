@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('Family Tree')
     .setDescription('Visualise your family hierarchy')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
