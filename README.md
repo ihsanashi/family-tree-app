@@ -14,17 +14,19 @@ Backend repository for a Family Tree application, scaffolded using NestJS CLI.
 $ pnpm install
 ```
 
-## Running the app
+## Running the app locally
 
 ```bash
+# docker compose
+docker-compose up
+
+# seed data
+pnpm dlx prisma db seed
+or
+npx prisma db seed
+
 # development
-$ pnpm run start
-
-# watch mode
 $ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
 ```
 
 ## Test
