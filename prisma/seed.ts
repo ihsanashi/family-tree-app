@@ -17,7 +17,7 @@ async function main() {
       email: 'ihsanashi@gmail.com',
       password: passwordIhsan,
       username: 'ahmadihsan',
-      verified: true,
+      verified: false,
     },
   });
 
