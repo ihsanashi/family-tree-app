@@ -1,51 +1,70 @@
+_Table of Contents_
+
+- [Introduction](#introduction)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Running the app locally](#running-the-app-locally)
+  - [Prepare environment variables](#prepare-environment-variables)
+  - [Seed data](#seed-data)
+  - [Development](#development)
+  - [Test](#test)
+
 # Introduction
 
 Backend repository for a Family Tree application, scaffolded using NestJS CLI.
 
-## Technologies
+# Technologies
 
-- NestJS
+- NestJS with TypeScript
 - PostgreSQL
 - Prisma
+- Bcrypt, JWT and Passport for authentication
+- Swagger for API documentation
 
-## Installation
+# Installation
 
 ```bash
 $ pnpm install
 ```
 
-## Running the app locally
+# Running the app locally
 
 ```bash
 # docker compose
 docker-compose up
+```
 
-# prepare environment variables
-1. copy over *.env.local* file into an *.env* file
+## Prepare environment variables
+
+1. copy over `.env.local` file into an `.env` file
 2. specify values where required
+3. for `MY_USER_PASSWORD`, please follow the rules specified in the [password criteria file](./src/auth/password-criteria.ts)
 
-# seed data
+## Seed data
+
+```bash
 pnpm dlx prisma db seed
 or
 npx prisma db seed
 
-# development
-$ pnpm run start:dev
+# `pnpm dlx` seems to be clunky with `prisma`, so use `npx` when it fails.
+```
+
+## Development
+
+```bash
+pnpm run start:dev
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ pnpm run test
+pnpm run test
 
 # e2e tests
-$ pnpm run test:e2e
+pnpm run test:e2e
 
 # test coverage
-$ pnpm run test:cov
+pnpm run test:cov
 ```
-
-### Notes:
-
-- `pnpm dlx` seems to be clunky with `prisma`, so use `npx` when it fails.
