@@ -7,14 +7,20 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { roundsOfHashing } from './password-criteria';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
-  async login(email: string, password: string): Promise<AuthEntity> {
+  async login(fields: LoginDto): Promise<AuthEntity> {
+    const { email, password } = fields;
+
     // Fetch a user with the given email
     const user = await this.prisma.user.findUnique({ where: { email: email } });
 
