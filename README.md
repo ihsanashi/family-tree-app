@@ -18,6 +18,7 @@ Backend repository for a Family Tree application, scaffolded using NestJS CLI.
 - NestJS with TypeScript
 - PostgreSQL
 - Prisma
+- Docker
 - Bcrypt, JWT and Passport for authentication
 - Swagger for API documentation
 
