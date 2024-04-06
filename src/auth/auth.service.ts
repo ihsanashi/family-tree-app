@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async login(fields: LoginDto): Promise<AuthEntity> {
-    const { email, password } = fields;
+    const { email, password: enteredPassword } = fields;
 
     // Fetch a user with the given email
     const user = await this.prisma.user.findUnique({ where: { email: email } });
@@ -30,22 +30,27 @@ export class AuthService {
     }
 
     // check if password is correct
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      enteredPassword,
+      user.password,
+    );
 
     // throw error if password is incorrect
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid password');
     }
 
+    const { password, ...userWithoutPassword } = user;
+
     // generate a JWT containing the user's ID and return it
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
-      user: user,
+      user: userWithoutPassword,
     };
   }
 
   async register(fields: RegisterDto): Promise<AuthEntity> {
-    const { email, username, password } = fields;
+    const { email, username, password: enteredPassword } = fields;
 
     // check if username is taken
     const usernameIsTaken = await this.prisma.user.findFirst({
@@ -73,13 +78,15 @@ export class AuthService {
       data: {
         username: username,
         email: email,
-        password: await bcrypt.hash(password, roundsOfHashing),
+        password: await bcrypt.hash(enteredPassword, roundsOfHashing),
       },
     });
 
+    const { password, ...userWithoutPassword } = user;
+
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
-      user,
+      user: userWithoutPassword,
     };
   }
 }

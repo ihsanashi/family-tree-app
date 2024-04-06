@@ -6,5 +6,5 @@ export class AuthEntity {
   accessToken: string;
 
   @ApiProperty()
-  user: User;
+  user: Omit<User, 'password'>;
 }
