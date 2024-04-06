@@ -4,11 +4,35 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
+  MinLength,
+  ValidationOptions,
 } from 'class-validator';
 import { PasswordCriteria } from '../password-criteria';
 
+export const EmailValidationOptions: ValidationOptions = {
+  message: 'Please enter a valid email',
+};
+
 export class LoginDto {
-  @IsEmail()
+  @IsEmail({}, EmailValidationOptions)
+  @IsNotEmpty()
+  @ApiProperty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(PasswordCriteria.minLength)
+  @ApiProperty()
+  password: string;
+}
+
+export class RegisterDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  username: string;
+
+  @IsEmail({}, EmailValidationOptions)
   @IsNotEmpty()
   @ApiProperty()
   email: string;
@@ -18,11 +42,4 @@ export class LoginDto {
   @IsStrongPassword(PasswordCriteria)
   @ApiProperty()
   password: string;
-}
-
-export class RegisterDto extends LoginDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  username: string;
 }
