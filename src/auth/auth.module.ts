@@ -12,7 +12,11 @@ export const jwtSecret = process.env.JWT_SECRET;
 @Module({
   controllers: [AuthController],
   imports: [
-    JwtModule.register({ secret: jwtSecret, signOptions: { expiresIn: '7d' } }),
+    JwtModule.register({
+      global: true,
+      secret: jwtSecret,
+      signOptions: { expiresIn: '7d' },
+    }),
     PassportModule,
     PrismaModule,
     UsersModule,
