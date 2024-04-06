@@ -6,8 +6,17 @@ import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 
+import configuration from './config/configuration';
+
 @Module({
-  imports: [AuthModule, ConfigModule.forRoot(), PrismaModule, UsersModule],
+  imports: [
+    AuthModule,
+    ConfigModule.forRoot({
+      load: [configuration],
+    }),
+    PrismaModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
