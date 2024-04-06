@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { PasswordCriteria } from '../password-criteria';
 
-export class AuthDto {
+export class LoginDto {
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
@@ -18,4 +18,11 @@ export class AuthDto {
   @IsStrongPassword(PasswordCriteria)
   @ApiProperty()
   password: string;
+}
+
+export class RegisterDto extends LoginDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  username: string;
 }
