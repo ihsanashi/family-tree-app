@@ -44,13 +44,26 @@ export class AuthService {
     };
   }
 
-  async register(email: string, password: string): Promise<AuthEntity> {
-    // check if user exists in DB
-    const userExists = await this.prisma.user.findFirst({
+  async register(fields: RegisterDto): Promise<AuthEntity> {
+    const { email, username, password } = fields;
+
+    // check if username is taken
+    const usernameIsTaken = await this.prisma.user.findFirst({
+      where: { username },
+    });
+
+    if (usernameIsTaken) {
+      throw new ConflictException(
+        `The username ${username} is taken. Please try a different one.`,
+      );
+    }
+
+    // check if email is taken
+    const emailIsTaken = await this.prisma.user.findFirst({
       where: { email },
     });
 
-    if (userExists) {
+    if (emailIsTaken) {
       throw new ConflictException(
         `An account already exists with the email ${email}`,
       );
@@ -58,6 +71,7 @@ export class AuthService {
 
     const user = await this.prisma.user.create({
       data: {
+        username: username,
         email: email,
         password: await bcrypt.hash(password, roundsOfHashing),
       },
