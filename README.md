@@ -20,6 +20,10 @@ $ pnpm install
 # docker compose
 docker-compose up
 
+# prepare environment variables
+1. copy over *.env.local* file into an *.env* file
+2. specify values where required
+
 # seed data
 pnpm dlx prisma db seed
 or
